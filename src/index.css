@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap');
+
+* { box-sizing: border-box; }
+body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f0f4f9; }
+
+@layer components {
+  .input-base {
+    @apply w-full px-3 py-2.5 border border-slate-200 rounded-lg text-sm bg-slate-50 outline-none transition-all focus:border-accent focus:bg-white placeholder:text-slate-400;
+  }
+  .btn-base {
+    @apply inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold cursor-pointer transition-all border-0 font-sans;
+  }
+  .card {
+    @apply bg-white rounded-2xl border border-slate-200 overflow-hidden;
+  }
+  .card-header {
+    @apply px-5 py-4 border-b border-slate-100 flex items-center justify-between;
+  }
+  .card-body {
+    @apply p-5;
+  }
+}
+
+/* Hide number input spinners */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
