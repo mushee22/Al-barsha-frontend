@@ -82,8 +82,11 @@ const FilterBar: React.FC<FilterBarProps> = ({ filters, loading, onChange, onCle
           <input
             className="input-base pl-9 text-xs"
             type="text"
+            name="customer_name"
+            autoComplete="do-not-autofill"
             placeholder="Customer Name"
             value={localName}
+            tabIndex={-1}
             onChange={(e) => setLocalName(e.target.value)}
           />
         </div>

@@ -63,9 +63,11 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
               </label>
               <input
                 type="password"
-                autoComplete="off"
+                autoComplete="new-password"
                 className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-200 focus:border-red-300"
                 placeholder="Password"
+                tabIndex={-1}
+                name="confirm-password-to-delete"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 onKeyDown={(e) => {
