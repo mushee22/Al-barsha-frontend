@@ -1,5 +1,5 @@
 import React from "react";
-import { LayoutDashboard, FileText, PlusCircle, Users, X, Settings } from "lucide-react";
+import { FileText, PlusCircle, Users, X, Settings } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 interface SidebarProps {
@@ -126,7 +126,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, totalInvoices }) => {
         </nav>
 
         <div className="px-4 py-3 border-t border-white/8 text-[11px] text-white/30">
-          Al Barsha Admin © 2025
+          Al Barsha Admin © {new Date().getFullYear()}
         </div>
       </aside>
     </>

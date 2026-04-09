@@ -289,6 +289,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({
       <ConfirmModal
         open={!!deleteTarget}
         loading={isDeleting}
+        requireDeletePassword
         message={`Invoice ${deleteTarget?.invoice_number} for "${deleteTarget?.customer_name}" will be permanently removed.`}
         onConfirm={handleDelete}
         onCancel={() => setDeleteTarget(null)}

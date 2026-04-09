@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Plus, Pencil, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { apiFetch } from "../../utils/api";
@@ -16,23 +16,26 @@ const StaffPage: React.FC = () => {
   const [pagination, setPagination] = useState<PaginationMeta | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
 
+  const fetchStaff = useCallback(
+    async (page: number) => {
+      try {
+        setLoading(true);
+        const response: StaffResponse = await apiFetch(`/staff?page=${page}`);
+        setStaffList(response.data || []);
+        setPagination(response.meta || null);
+      } catch (err) {
+        console.error("Failed to load staff:", err);
+        showToast("Failed to load staff", "danger");
+      } finally {
+        setLoading(false);
+      }
+    },
+    [showToast]
+  );
+
   useEffect(() => {
     fetchStaff(currentPage);
-  }, [currentPage]);
-
-  const fetchStaff = async (page: number) => {
-    try {
-      setLoading(true);
-      const response: StaffResponse = await apiFetch(`/staff?page=${page}`);
-      setStaffList(response.data || []);
-      setPagination(response.meta || null);
-    } catch (err) {
-      console.error("Failed to load staff:", err);
-      showToast("Failed to load staff", "danger");
-    } finally {
-      setLoading(false);
-    }
-  };
+  }, [currentPage, fetchStaff]);
 
   const handleDelete = async () => {
     if (!deleteTarget) return;

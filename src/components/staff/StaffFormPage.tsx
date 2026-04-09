@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { apiFetch, BASE_URL } from "../../utils/api";
 import { useToast } from "../../hooks/useToast";
@@ -21,13 +21,7 @@ const StaffFormPage: React.FC = () => {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    if (isEdit) {
-      loadStaff();
-    }
-  }, [id]);
-
-  const loadStaff = async () => {
+  const loadStaff = useCallback(async () => {
     try {
       const data = await apiFetch(`/staff/${id}`);
       const staff: Staff = data.data || data;
@@ -45,7 +39,13 @@ const StaffFormPage: React.FC = () => {
     } finally {
       setFetching(false);
     }
-  };
+  }, [id, navigate, showToast]);
+
+  useEffect(() => {
+    if (isEdit) {
+      loadStaff();
+    }
+  }, [isEdit, loadStaff]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {

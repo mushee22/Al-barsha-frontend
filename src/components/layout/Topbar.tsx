@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Menu, Plus, ChevronRight, LogOut, Search } from "lucide-react";
+import { Menu, Plus, LogOut, Search } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import GlobalSearchModal from "../ui/GlobalSearchModal";

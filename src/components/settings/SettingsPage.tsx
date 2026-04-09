@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Save, Upload, Trash2, Camera } from "lucide-react";
-import { apiFetch, BASE_URL } from "../../utils/api";
+import { apiFetch } from "../../utils/api";
 import { Settings } from "../../types";
 import { useToast } from "../../hooks/useToast";
 
@@ -16,11 +16,7 @@ const SettingsPage: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const { showToast } = useToast();
 
-  useEffect(() => {
-    fetchSettings();
-  }, []);
-
-  const fetchSettings = async () => {
+  const fetchSettings = useCallback(async () => {
     try {
       const response = await apiFetch("/settings");
       setSettings(response.data);
@@ -29,7 +25,11 @@ const SettingsPage: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [showToast]);
+
+  useEffect(() => {
+    fetchSettings();
+  }, [fetchSettings]);
 
   const handleSettingsChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
