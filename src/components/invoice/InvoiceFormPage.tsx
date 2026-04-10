@@ -84,12 +84,13 @@ const InvoiceFormPage: React.FC<InvoiceFormPageProps> = ({ onToast }) => {
 
     const afterSuccess = (data: Invoice) => {
       if (!data.pdf_url) return;
-      const anchorTag = document.createElement("a");
-      anchorTag.href = data.pdf_url;
-      anchorTag.target = "_blank";
 
-      anchorTag.click();
-      document.body.removeChild(anchorTag);
+      const newTab = window.open(data.pdf_url, "_blank");
+      if (newTab) {
+        newTab.focus();
+      } else {
+        onToast("Please allow popups for this site", "danger");
+      }
     }
 
     setIsSaving(true);
@@ -105,6 +106,7 @@ const InvoiceFormPage: React.FC<InvoiceFormPageProps> = ({ onToast }) => {
       }
       navigate("/invoices");
     } catch (err) {
+      console.log(err);
       onToast("Failed to save invoice", "danger");
     } finally {
       setIsSaving(false);
