@@ -11,6 +11,10 @@ import StaffPage from "./components/staff/StaffPage";
 import StaffFormPage from "./components/staff/StaffFormPage";
 import SettingsPage from "./components/settings/SettingsPage";
 import InvoiceDetailPage from "./components/invoice/InvoiceDetailPage";
+import QuotationListPage from "./components/quotation/QuotationListPage";
+import QuotationFormPage from "./components/quotation/QuotationFormPage";
+import QuotationDetailPage from "./components/quotation/QuotationDetailPage";
+import { QuotationProvider, useQuotations } from "./context/QuotationContext";
 import ToastContainer from "./components/ui/ToastContainer";
 import { useToast } from "./hooks/useToast";
 
@@ -45,6 +49,7 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
 const AppShell: React.FC = () => {
   const { deleteInvoice } = useApp();
+  const { deleteQuotation } = useQuotations();
   const { toasts, showToast, removeToast } = useToast();
 
   const handleDelete = async (id: number) => {
@@ -54,6 +59,16 @@ const AppShell: React.FC = () => {
     } catch (err) {
       showToast("Failed to delete invoice", "danger");
       throw err; // Re-throw to let the caller (InvoiceTable) know it failed
+    }
+  };
+
+  const handleDeleteQuotation = async (id: number) => {
+    try {
+      await deleteQuotation(id);
+      showToast("Quotation deleted successfully.", "success");
+    } catch (err) {
+      showToast("Failed to delete quotation", "danger");
+      throw err;
     }
   };
 
@@ -72,6 +87,11 @@ const AppShell: React.FC = () => {
                   <Route path="/invoices/create" element={<InvoiceFormPage onToast={showToast} />} />
                   <Route path="/invoices/:id" element={<InvoiceDetailPage />} />
                   <Route path="/invoices/:id/edit" element={<InvoiceFormPage onToast={showToast} />} />
+
+                  <Route path="/quotations" element={<QuotationListPage onDelete={handleDeleteQuotation} />} />
+                  <Route path="/quotations/create" element={<QuotationFormPage onToast={showToast} />} />
+                  <Route path="/quotations/:id" element={<QuotationDetailPage />} />
+                  <Route path="/quotations/:id/edit" element={<QuotationFormPage onToast={showToast} />} />
 
                   {/* Staff Routes */}
                   <Route path="/staff" element={<StaffPage />} />
@@ -95,7 +115,9 @@ const AppShell: React.FC = () => {
 const App: React.FC = () => (
   <AuthProvider>
     <AppProvider>
-      <AppShell />
+      <QuotationProvider>
+        <AppShell />
+      </QuotationProvider>
     </AppProvider>
   </AuthProvider>
 );

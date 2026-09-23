@@ -14,8 +14,12 @@ const Topbar: React.FC<TopbarProps> = ({ onMenuClick }) => {
   const navigate = useNavigate();
   const { logout } = useAuth();
 
-  const isCreate = location.pathname === "/invoices/create";
-  const isEdit = location.pathname.match(/^\/invoices\/\d+\/edit$/);
+  const isQuotationRoute = location.pathname.startsWith("/quotations");
+  const isCreate = location.pathname === "/invoices/create" || location.pathname === "/quotations/create";
+  const isEdit = Boolean(
+    location.pathname.match(/^\/invoices\/\d+\/edit$/) ||
+    location.pathname.match(/^\/quotations\/\d+\/edit$/)
+  );
   const isForm = isCreate || isEdit;
 
   return (
@@ -55,7 +59,7 @@ const Topbar: React.FC<TopbarProps> = ({ onMenuClick }) => {
         {isForm ? (
           <button
             className="btn-base bg-slate-100 text-slate-600 hover:bg-slate-200 text-xs px-3 py-1.5"
-            onClick={() => navigate("/")}
+            onClick={() => navigate(isQuotationRoute ? "/quotations" : "/")}
           >
             ← Back
           </button>
@@ -70,10 +74,10 @@ const Topbar: React.FC<TopbarProps> = ({ onMenuClick }) => {
             </button>
             <button
               className="btn-base bg-accent hover:bg-accent-hover text-white"
-              onClick={() => navigate("/invoices/create")}
+              onClick={() => navigate(isQuotationRoute ? "/quotations/create" : "/invoices/create")}
             >
               <Plus size={14} />
-              <span className="hidden sm:inline">New Invoice</span>
+              <span className="hidden sm:inline">{isQuotationRoute ? "New Quotation" : "New Invoice"}</span>
             </button>
             <button
               className="btn-base bg-white border border-slate-200 text-slate-600 hover:bg-red-50 hover:text-red-600 hover:border-red-200 px-3 py-1.5"

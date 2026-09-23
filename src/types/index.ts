@@ -41,6 +41,45 @@ export interface InvoiceResponse {
   links: PaginationLinks;
 }
 
+export interface QuotationItem {
+  id: number | string;
+  product_name: string;
+  quantity: number | string;
+  unit_price: number | string;
+  total_price?: number;
+}
+
+export interface Quotation {
+  id: number;
+  quotation_number: string;
+  customer_name: string;
+  date: string;
+  staff_id: number;
+  total_amount: number;
+  pdf_path?: string;
+  pdf_url: string;
+  staff?: Staff;
+  items: QuotationItem[];
+  created_at?: string;
+}
+
+export interface QuotationResponse {
+  data: Quotation[];
+  meta: PaginationMeta;
+  links: PaginationLinks;
+}
+
+export interface QuotationPayload {
+  customer_name: string;
+  date: string;
+  staff_id: number;
+  items: {
+    product_name: string;
+    quantity: number;
+    unit_price: number;
+  }[];
+}
+
 export interface Settings {
   invoice_company_name: string;
   invoice_footer_line1: string;

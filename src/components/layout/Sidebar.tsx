@@ -1,5 +1,5 @@
 import React from "react";
-import { FileText, PlusCircle, Users, X, Settings } from "lucide-react";
+import { FileText, PlusCircle, Users, X, Settings, ScrollText } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 interface SidebarProps {
@@ -29,6 +29,16 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, totalInvoices }) => {
       label: "Create Invoice",
       icon: <PlusCircle size={16} />,
       path: "/invoices/create",
+    },
+    {
+      label: "Quotations",
+      icon: <ScrollText size={16} />,
+      path: "/quotations",
+    },
+    {
+      label: "Create Quotation",
+      icon: <PlusCircle size={16} />,
+      path: "/quotations/create",
     },
     {
       label: "Staff Users",
@@ -92,13 +102,16 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, totalInvoices }) => {
           </p>
           {navItems.map((item) => {
             const isInvoiceEdit = location.pathname.match(/^\/invoices\/\d+\/edit$/);
+            const isQuotationEdit = location.pathname.match(/^\/quotations\/\d+\/edit$/);
             const isStaffEdit = location.pathname.match(/^\/staff\/\d+\/edit$/) || location.pathname === '/staff/create';
             const active =
               item.path === '/' ? location.pathname === '/' :
-                item.path === '/invoices' ? location.pathname === '/invoices' || isInvoiceEdit :
+                item.path === '/invoices' ? location.pathname === '/invoices' || !!isInvoiceEdit :
                   item.path === '/invoices/create' ? location.pathname === '/invoices/create' :
-                    item.path === '/staff' ? location.pathname === '/staff' || isStaffEdit :
-                      item.path === '/settings' ? location.pathname === '/settings' : false;
+                    item.path === '/quotations' ? location.pathname === '/quotations' || !!isQuotationEdit :
+                      item.path === '/quotations/create' ? location.pathname === '/quotations/create' :
+                        item.path === '/staff' ? location.pathname === '/staff' || isStaffEdit :
+                          item.path === '/settings' ? location.pathname === '/settings' : false;
 
             return (
               <button

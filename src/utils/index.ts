@@ -1,6 +1,6 @@
 import { LineItem } from "../types";
 
-export const calcTotal = (items: LineItem[]): number =>
+export const calcTotal = (items: Pick<LineItem, "quantity" | "unit_price">[]): number =>
   items.reduce((sum, i) => {
     const q = typeof i.quantity === "number" ? i.quantity : parseFloat(i.quantity as string) || 0;
     const p = typeof i.unit_price === "number" ? i.unit_price : parseFloat(i.unit_price as string) || 0;
